@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React from "react"
 import memesData from "../memesData";
 
@@ -14,11 +15,21 @@ const GenerateMeme = () => {
     const memesArray = allMemeImages.data.memes;
     const randomNumber = Math.floor(Math.random() * memesArray.length);
     const url = memesArray[randomNumber].url;
-
+  
     setMeme(prevMeme => {
       return {
         ...prevMeme,
         randomImage: url
+      }
+    })
+  }
+
+  function handleChange(e) {
+    setMeme(prevMeme => {
+      const {name, value} = e.target
+      return {
+        ...prevMeme,
+        [name]: value
       }
     })
   }
@@ -29,12 +40,18 @@ const GenerateMeme = () => {
         <input
           className="meme--input top-input"
           type="text"
+          onChange={handleChange}
           placeholder="Top text"
+          value={meme.topText}
+          name="topText"
         />
         <input
           className="meme--input bottom-input"
           type="text"
+          onChange={handleChange}
           placeholder="Bottom text"
+          value={meme.bottomText}
+          name="bottomText"
         />
         <button
           className="meme--submit" type='submit'
@@ -45,8 +62,8 @@ const GenerateMeme = () => {
       </div>
       <div className="meme">
         <img className="meme--img" src={meme.randomImage} alt="meme" />
-        <h2 className="meme--text top">One does not simply</h2>
-        <h2 className="meme--text bottom">Walk into Morder</h2>
+        <h2 className="meme--text top">{meme.topText}</h2>
+        <h2 className="meme--text bottom">{meme.bottomText}</h2>
       </div>
     </main>
   );
